@@ -7,28 +7,68 @@ const IndexPage= () =>{
 
   const fetch = require("node-fetch")
 
-
-
+  const [pokemonData, setPokemonData] = useState({
+      name: "",
+      hp: "",
+      attack: "",
+      defense: "",
+      special_attack: "",
+      special_defense: "",
+      speed: "",
+      type: ""
+  })
   const[pokemonName, setPokemonName] = useState("");
-  async function searchPokemon(){
+  const[pokemonSearched, setPokemonSearched] = useState(false);
 
+
+  async function searchPokemon(){  
     const pokemon = `${pokemonName.toLowerCase()}`;
     const { errors, data } = await fetchPokemon_details(pokemon)
     if (errors) {
       console.error(errors)
     }
-    console.log(JSON.stringify(data, null, 2))
-    console.log(pokemon)
+    const lowName =  data.species[0].name;
+    const capName = lowName.charAt(0).toUpperCase() + lowName.slice(1);
+
+    setPokemonSearched(true);
     
+    setPokemonData({name: capName,
+      hp: data.species[0].pokemon.nodes[0].stats[0].base_stat,
+      attack: data.species[0].pokemon.nodes[0].stats[1].base_stat,
+      defense: data.species[0].pokemon.nodes[0].stats[2].base_stat,
+      special_attack: data.species[0].pokemon.nodes[0].stats[3].base_stat,
+      special_defense: data.species[0].pokemon.nodes[0].stats[4].base_stat,
+      speed: data.species[0].pokemon.nodes[0].stats[5].base_stat,
+      type: data.species[0].pokemon.nodes[0].types[0].type.name
+    }) 
   }
   return (
     <main>
       <div className="App">
-        <div className="TitleSection">
+        <div className="TitleSection" >
           <h1>Pokemon Stats</h1>
-          <input type="text" onChange={(event)=> {setPokemonName(event.target.value);}}/>
+          <input type="text" placeholder="Charmander" onChange={(event)=> {setPokemonName(event.target.value);}}/>
           <button onClick={searchPokemon}>Search Pokedex</button>
         </div>
+      </div>
+      <div className="DisplaySection">
+        { !pokemonSearched ? (
+        <h1>Search for a Pokemon</h1>
+        ):(
+          <>
+          <h1>{pokemonData.name}</h1>
+          <h2>Type: {pokemonData.type}</h2>
+          <h3>Hp: {pokemonData.hp}</h3>
+          <h3>Attack: {pokemonData.attack}</h3>
+          <h3>Defense: {pokemonData.defense}</h3>
+          <h3>Special Attack: {pokemonData.special_attack}</h3>
+          <h3>Special Defense: {pokemonData.special_defense}</h3>
+          <h3>Speed: {pokemonData.speed}</h3>
+          </>
+        )
+        }
+
+
       </div>
     </main>
   )
@@ -55,13 +95,7 @@ const IndexPage= () =>{
       query pokemon_details($name: String) {
         species: pokemon_v2_pokemonspecies(where: {name: {_eq: $name}}) {
           name
-          base_happiness
-          is_legendary
-          is_mythical
           generation: pokemon_v2_generation {
-            name
-          }
-          habitat: pokemon_v2_pokemonhabitat {
             name
           }
           pokemon: pokemon_v2_pokemons_aggregate(limit: 1) {
@@ -70,13 +104,7 @@ const IndexPage= () =>{
               name
               id
               weight
-              abilities: pokemon_v2_pokemonabilities_aggregate {
-                nodes {
-                  ability: pokemon_v2_ability {
-                    name
-                  }
-                }
-              }
+              
               stats: pokemon_v2_pokemonstats {
                 base_stat
                 stat: pokemon_v2_stat {
@@ -89,30 +117,17 @@ const IndexPage= () =>{
                   name
                 }
               }
-              levelUpMoves: pokemon_v2_pokemonmoves_aggregate(where: {pokemon_v2_movelearnmethod: {name: {_eq: "level-up"}}}, distinct_on: move_id) {
-                nodes {
-                  move: pokemon_v2_move {
-                    name
-                  }
-                  level
-                }
-              }
-              foundInAsManyPlaces: pokemon_v2_encounters_aggregate {
-                aggregate {
-                  count
-                }
-              }
-              fireRedItems: pokemon_v2_pokemonitems(where: {pokemon_v2_version: {name: {_eq: "firered"}}}) {
-                pokemon_v2_item {
-                  name
-                  cost
-                }
-                rarity
-              }
             }
           }
           flavorText: pokemon_v2_pokemonspeciesflavortexts(where: {pokemon_v2_language: {name: {_eq: "en"}}, pokemon_v2_version: {name: {_eq: "firered"}}}) {
             flavor_text
+          }
+          img: pokemon_v2_pokemonspecies(where: {pokemon_v2_pokemondexnumbers: {pokemon_v2_pokedex: {name: {_eq: "charmander"}}}}) {
+            pokemon_v2_pokemons {
+              pokemon_v2_pokemonsprites {
+                sprites
+              }
+            }
           }
         }
       }
