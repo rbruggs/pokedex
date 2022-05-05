@@ -1,53 +1,31 @@
+import React, { useState } from 'react'
+import { navigate } from 'gatsby'
 
-import * as React from 'react'
-import "../App.css"
-import { useState } from 'react';
-import * as d3 from 'd3';
-import Pie from '../components/pie'
+import Layout from '../components/Layout'
+import Input from '../components/Input'
+import PokemonGrid from '../components/PokemonGrid'
 import usePokedex from '../hooks/usePokedex'
 
-
-const IndexPage= () =>{
-
+const IndexPage = () => {
+  const [search, setSearch] = useState('')
   const pokedex = usePokedex()
-  const [pokemonData, setPokemonData] = useState({
-      name: "",
-      hp: "",
-      attack: "",
-      defense: "",
-      special_attack: "",
-      special_defense: "",
-      speed: "",
-      type: ""
-  })
-  const[pokemonName, setPokemonName] = useState("");
- 
+  const handlePokemonClick = pokemon => navigate(pokemon.fields.slug)
+  const handleSearchChange = event => setSearch(event.target.value)
+  const byName = name => pokemon =>
+    pokemon.name.toLowerCase().includes(name.toLowerCase())
+
   return (
-    <main>
-
-      <div className="DisplaySection">
-        { !pokemonSearched ? (
-        <h1>Search for a Pokemon</h1>
-        ):(
-          <>
-          <h1>{pokemonData.name}</h1>
-          <h2>Type: {pokemonData.type}</h2>
-          <h3>Hp: {pokemonData.hp}</h3>
-          <h3>Attack: {pokemonData.attack}</h3>
-          <h3>Defense: {pokemonData.defense}</h3>
-          <h3>Special Attack: {pokemonData.special_attack}</h3>
-          <h3>Special Defense: {pokemonData.special_defense}</h3>
-          <h3>Speed: {pokemonData.speed}</h3>
-          </>
-        )
-        }
-
-
-      </div>
-    </main>
-  )  
-
+    <Layout>
+      <Input
+        value={search}
+        onChange={handleSearchChange}
+      />
+      <PokemonGrid
+        pokemons={pokedex.filter(byName(search))}
+        onPokemonClick={handlePokemonClick}
+      />
+    </Layout>
+  )
 }
-  
 
-export default IndexPage;
+export default IndexPage
