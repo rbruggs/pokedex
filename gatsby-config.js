@@ -1,9 +1,8 @@
 module.exports = {
-  pathPrefix: "/pokedex",
   siteMetadata: {
     title: `Pokedex`,
     description: `pokedex`,
-    author: `Ryan Bruggemann`,
+    author: `Mateus Sobral Monteiro`,
   },
   plugins: [
     `gatsby-plugin-emotion`,
@@ -30,6 +29,8 @@ module.exports = {
     //   },
     // },
     `gatsby-source-pokedex`,
+    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.dev/offline
+    // `gatsby-plugin-offline`,
   ],
 }
-
