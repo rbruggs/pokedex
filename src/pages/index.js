@@ -2,6 +2,7 @@
 import * as React from 'react'
 import "../App.css"
 import { useState } from 'react';
+import * as d3 from d3
 
 const IndexPage= () =>{
 
@@ -142,6 +143,8 @@ const IndexPage= () =>{
 
 
   }
+
+  d3.select('h1').style('color', 'red');
 
 }
 
