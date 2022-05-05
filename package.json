@@ -19,8 +19,14 @@
     "d3": "^7.4.4",
     "gatsby": "^4.12.1",
     "gatsby-cli": "^4.13.0",
+    "gatsby-plugin-emotion": "^7.13.0",
+    "gatsby-source-pokedex": "^1.0.3",
+    "lodash": "^4.17.21",
+    "proptypes": "^1.1.0",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-redux": "^8.0.1",
+    "redux": "^4.2.0"
   },
   "devDependencies": {
     "gh-pages": "^3.2.3"
