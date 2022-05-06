@@ -7,7 +7,7 @@ import {
   } from './layout.module.css'
 
 const PokemonGrid = ({ pokemons, onPokemonClick }) => {
-  const handleClick = pokemon => () => onPokemonClick(pokemon)
+  //const handleClick = pokemon => () => onPokemonClick(pokemon)
 
   return (
     <>
@@ -16,7 +16,7 @@ const PokemonGrid = ({ pokemons, onPokemonClick }) => {
           <PokemonCard
             key={pokemon.national_number}
             pokemon={pokemon}
-            onClick={handleClick(pokemon)}
+            //onClick={handleClick(pokemon)}
           />
         ))}
       </div>
