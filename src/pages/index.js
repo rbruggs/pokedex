@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { navigate } from 'gatsby'
-
-import Layout from '../components/Layout'
-import Input from '../components/Input'
-import PokemonGrid from '../components/PokemonGrid'
+import Layout from '../components/layout'
+import Input from '../components/input'
 import usePokedex from '../hooks/usePokedex'
+import PokemonGrid from '../components/PokemonGrid'
 
 const IndexPage = () => {
+
   const [search, setSearch] = useState('')
   const pokedex = usePokedex()
   const handlePokemonClick = pokemon => navigate(pokemon.fields.slug)
@@ -15,7 +15,7 @@ const IndexPage = () => {
     pokemon.name.toLowerCase().includes(name.toLowerCase())
 
   return (
-    <Layout>
+    <Layout pageTitle="Home Page">
       <Input
         value={search}
         onChange={handleSearchChange}

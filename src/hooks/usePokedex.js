@@ -2,36 +2,23 @@ import { graphql, useStaticQuery } from 'gatsby'
 
 const usePokedex = () => {
   const data = useStaticQuery(graphql`
-    query {
-      allPokemon {
+  query {
+    allPokemons {
         nodes {
-          number
           name
-          type
-          base {
-            HP
-            Attack
-            Defense
-            Sp__Attack
-            Sp__Defense
-            Speed
-          }
-          image {
-            childImageSharp {
-              fixed(width: 125, height: 125, quality: 100) {
-                ...GatsbyImageSharpFixed_withWebp
-              }
-            }
-          }
-          fields {
-            slug
-          }
+          national_number
+          sp_atk
+          sp_def
+          speed
+          hp
+          defense
+          attack
         }
       }
-    }
+    } 
   `)
 
-  return data.allPokemon.nodes
+  return data.allPokemons.nodes
 }
 
 export default usePokedex
