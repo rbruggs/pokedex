@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 //import { navigate } from 'gatsby'
-import Layout from '../components/layout'
-import Input from '../components/input'
+import Layout from '../components/Layout'
+import Input from '../components/Input'
 import usePokedex from '../hooks/usePokedex'
 import PokemonGrid from '../components/PokemonGrid'
 
