@@ -1,5 +1,5 @@
 module.exports = {
-  pathPrefix: "/pokedex",
+  pathPrefix:"/pokedex",
   siteMetadata: {
     title: "Pokedex",
   },
