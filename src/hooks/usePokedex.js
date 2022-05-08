@@ -13,7 +13,11 @@ const usePokedex = () => {
           hp
           defense
           attack
-        }
+          sprites {
+            normal
+            large
+          }
+        }       
       }
     } 
   `)
