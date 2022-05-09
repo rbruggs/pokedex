@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { navigate } from 'gatsby'
-import Layout from '../components/Layout'
 import { Link } from "gatsby"
+import React, { useState } from 'react'
+import { navigate } from "gatsby"
+import Layout from '../components/Layout'
 import {
   input,
   button,
-  h3s
+  uList,
+  card
 } from '../components/layout.module.css'
 
-export default () => {
+export default function AllPokemon({ pageContext: { allPokemon } }) {
 
   const [name, setName] = useState('');
   const handleInput = event => {
@@ -19,10 +20,12 @@ export default () => {
 
     navigate('/pokemon/');
   };
-  
+
+
   return (
     <>
     <Layout pageTitle="Home Page">
+
     <form onSubmit={handleSubmit}>
           <input
             className={input}
@@ -44,13 +47,30 @@ export default () => {
           Search
         </button>
       </form>
-      <h3
-      className={h3s}
-      >
-        Search above or <Link to="/pokemon/">CLICK HERE</Link>to see a list of all pokemon available in this pokedex!
-      </h3>
 
+    <div>
+      <ul className={uList}>
+        {allPokemon.map(pokemon => (
+          <li key={pokemon.id} className={card}>
+          <Link to={`/pokemon/${pokemon.name}`}
+          style={{
+            fontSize: 20,
+            color: `white`,
+            textDecoration: `none`,
+          }}
+          >
+            <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+            <p>{pokemon.name}</p>
+          </Link>
+            <h4>Type: {pokemon.types[0].type.name}</h4>
+          </li>
+        ))}
+      </ul>
+    </div>
     </Layout>
     </>
   )
 }
+
+
+
